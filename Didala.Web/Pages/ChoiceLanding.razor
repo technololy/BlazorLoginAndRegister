@@ -1,0 +1,58 @@
+@page "/"
+@inject NavigationManager NavigationManager
+
+<div class="home-wrapper">
+    <div class="row homepage-selector">
+        <a href="#" class="homepage-selector-col">
+            <div class="homepage-selector-col-content">
+                <div class="homepage-selector-col-image">
+                    <img class="ml-lg-5" src="../assets/img/ill/ill.png" width="60%">
+                </div>
+                <div class="homepage-selector-col-text description pl-4">
+                    <h2 class="title">Influencers</h2>
+                    <p>
+                        Bootstrap includes a wide range of shorthand responsive margin and padding utility classes to modify an element’s appearance.
+                        Bootstrap includes a wide range of shorthand responsive margin and padding utility classes to modify an element’s appearance.
+                    </p>
+                    <i class="fa fa-2x fa-arrow-right" @onclick="NavToInfluencersPage"></i>
+                    @* <a href="/counter"> <i class="fa fa-2x fa-arrow-right" ></i></a> *@
+
+                </div>
+            </div>
+        </a>
+        <a href="#" class="homepage-selector-col" style="background: #f1f9fb">
+            <div class="homepage-selector-col-content">
+                <div class="homepage-selector-col-image">
+                    <img class="ml-lg-5" src="../assets/img/ill/ill.png" width="60%">
+                </div>
+                <div class="homepage-selector-col-text description pl-4">
+                    <h2 class="title">Vendors</h2>
+                    <p>
+                        Bootstrap includes a wide range of shorthand responsive margin and padding utility classes to modify an element’s appearance.
+                        Bootstrap includes a wide range of shorthand responsive margin and padding utility classes to modify an element’s appearance.
+                    </p>
+                    <i class="fa fa-2x fa-arrow-right" @onclick="NavToVendorsPage"></i>
+
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
+@code {
+    private int currentCount = 0;
+
+    private void NavToInfluencersPage()
+    {
+        Data.DataStore.userType = "Influencers";
+        NavigationManager.NavigateTo("/howitworks/influencers");
+    }
+
+    private void NavToVendorsPage()
+    {
+        Data.DataStore.userType = "Brands";
+
+        NavigationManager.NavigateTo("/howitworks/brands");
+
+    }
+}

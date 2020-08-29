@@ -1,0 +1,142 @@
+﻿@inject Services.AppState AppState
+@implements IDisposable
+@* <div class="top-row pl-4 navbar navbar-dark">
+        <a class="navbar-brand" href="">Didala.Web</a>
+        <button class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+
+    <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+        <ul class="nav flex-column">
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                    <span class="oi oi-home" aria-hidden="true"></span> Home
+                </NavLink>
+            </li>
+             <li class="nav-item px-3">
+                <NavLink class="nav-link" href="Login">
+                    <span class="oi oi-home" aria-hidden="true"></span> Sign In
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="counter">
+                    <span class="oi oi-plus" aria-hidden="true"></span> Counter
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="fetchdata">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+                </NavLink>
+            </li>
+        </ul>
+    </div>
+
+    @code {
+        private bool collapseNavMenu = true;
+
+        private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+        private void ToggleNavMenu()
+        {
+            collapseNavMenu = !collapseNavMenu;
+        }
+    } *@
+
+<nav id="navbar-main" class="navbar navbar-main navbar-expand-lg navbar-transparent navbar-light headroom">
+    <div class="container">
+        <a class="navbar-brand mr-lg-5" href="/">
+            <img src="../assets/img/brand/didalla.jpg">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_global" aria-controls="navbar_global" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse" id="navbar_global">
+            <div class="navbar-collapse-header">
+                <div class="row">
+                    <div class="col-6 collapse-brand">
+                        <a href="../../../index.html">
+                            <img src="../assets/img/brand/blue.png">
+                        </a>
+                    </div>
+                    <div class="col-6 collapse-close">
+                        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar_global" aria-controls="navbar_global" aria-expanded="false" aria-label="Toggle navigation">
+                            <span></span>
+                            <span></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            @if (AppState.LoggedIn)
+            {
+<ul class="navbar-nav navbar-nav-hover align-items-lg-center">
+    <li class="nav-item">
+        <a href="home.html" class="nav-link" role="button">
+            <i class="ni ni-ui-04 d-lg-none"></i>
+            <span class="nav-link-inner--text">Landing</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="../examples/profile.html" class="nav-link" role="button">
+            <i class="ni ni-ui-04 d-lg-none"></i>
+            <span class="nav-link-inner--text">Profile</span>
+        </a>
+    </li>
+    <li class="nav-item dropdown">
+        <a href="#" class="nav-link" data-toggle="dropdown" role="button">
+            <i class="ni ni-collection d-lg-none"></i>
+            <span class="nav-link-inner--text">Dropdown Examples</span>
+        </a>
+        <div class="dropdown-menu">
+            <a href="../examples/home.html" class="dropdown-item">Landing</a>
+            <a href="../examples/profile.html" class="dropdown-item">Profile</a>
+            <a href="../examples/login.html" class="dropdown-item">Login</a>
+            <a href="../examples/register.html" class="dropdown-item">Register</a>
+        </div>
+    </li>
+</ul> }
+else
+{
+<ul class="navbar-nav align-items-lg-center ml-lg-auto">
+    <li class="nav-item">
+        <a class="nav-link nav-link-icon" href="/LoginPage" data-toggle="tooltip" title="Login to your account">
+            <i class="fa fa-sign-in"></i>
+            <span class="nav-link-inner--text">Login</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link nav-link-icon" href="/register" data-toggle="tooltip" title="Create an account">
+            <i class="fa fa-user-plus"></i>
+            <span class="nav-link-inner--text">Register</span>
+        </a>
+    </li>
+</ul>}
+        </div>
+    </div>
+</nav>
+
+@code
+
+{ private bool isAuthenticated = Data.DataStore.isAuthenticated;
+
+    protected override void OnInitialized()
+    {
+        isAuthenticated = Data.DataStore.isAuthenticated;
+        AppState.OnChange += StateHasChanged;
+
+        //base.OnInitialized();
+    }
+
+    public void Dispose()
+    {
+        AppState.OnChange -= StateHasChanged;
+    }
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    } }
