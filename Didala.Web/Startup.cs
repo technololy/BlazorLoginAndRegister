@@ -31,6 +31,8 @@ namespace Didala.Web
             services.AddSingleton<WeatherForecastService>();
             services.AddScoped<SpinnerService>();
             services.AddSingleton<Services.AppState>();
+            services.AddSingleton<Services.AlertModalService>();
+            services.AddSingleton<Services.ModalService>();
 
             services.AddHttpClient<Services.IDataServices, Services.DataServices>(client =>
             {

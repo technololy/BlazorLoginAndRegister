@@ -1,5 +1,6 @@
 ﻿using System;
 using Didala.Models.Models;
+using Didala.Web.Services;
 using Microsoft.AspNetCore.Components;
 
 namespace Didala.Web.Pages
@@ -11,13 +12,18 @@ namespace Didala.Web.Pages
         [Inject]
         public Services.AppState AppState { get; set; }
         [Inject] public NavigationManager NavManager { get; set; }
+        [Inject] public Services.AlertModalService AlertModalService { get; set; }
+
 
         private LoginModel loginModel = new LoginModel();
+        bool IsTaskRunning = false;
 
-        private async void HandleValidSubmitAsync()
+        public async void HandleValidSubmitAsync()
         {
+            IsTaskRunning = true;
             var login = loginModel;
             var response = await dataServices.Login(login);
+            IsTaskRunning = false;
             if (response != null && response.IsSuccessful)
             {
                 Data.DataStore.isAuthenticated = true;
@@ -38,6 +44,7 @@ namespace Didala.Web.Pages
             }
             else
             {
+                AlertModalService.Show("Oops", "Wrong username/password", false);
 
             }
         }

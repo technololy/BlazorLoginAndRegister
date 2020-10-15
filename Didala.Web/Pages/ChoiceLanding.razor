@@ -1,5 +1,7 @@
 @page "/"
 @inject NavigationManager NavigationManager
+@inject Services.ModalService ModalService
+@inject Services.AlertModalService AlertModalService
 
 <div class="home-wrapper">
     <div class="row homepage-selector">
@@ -26,7 +28,7 @@
                     <img class="ml-lg-5" src="../assets/img/ill/ill.png" width="60%">
                 </div>
                 <div class="homepage-selector-col-text description pl-4">
-                    <h2 class="title">Vendors</h2>
+                    <h2 class="title">Brands</h2>
                     <p>
                         Bootstrap includes a wide range of shorthand responsive margin and padding utility classes to modify an element’s appearance.
                         Bootstrap includes a wide range of shorthand responsive margin and padding utility classes to modify an element’s appearance.
@@ -50,6 +52,9 @@
 
     private void NavToVendorsPage()
     {
+        //AlertModalService.Show("Success", "This is a brands click", true);
+        // ModalService.Show("Simple Form", typeof(Pages.Test.Test));
+
         Data.DataStore.userType = "Brands";
 
         NavigationManager.NavigateTo("/howitworks/brands");
