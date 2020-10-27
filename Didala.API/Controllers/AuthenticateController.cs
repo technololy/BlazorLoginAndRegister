@@ -4,7 +4,6 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Didala.API.Models;
-using Didala.Models.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using AutoMapper;
 
 namespace Didala.API.Controllers
 {
@@ -23,12 +23,14 @@ namespace Didala.API.Controllers
         private readonly UserManager<ApplicationUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IConfiguration _configuration;
+        private readonly IMapper mapper;
 
-        public AuthenticateController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
+        public AuthenticateController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IMapper mapper)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
             _configuration = configuration;
+            this.mapper = mapper;
         }
 
 
@@ -84,12 +86,16 @@ namespace Didala.API.Controllers
                 if (userExists != null)
                     return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
 
-                ApplicationUser user = new ApplicationUser()
-                {
-                    Email = model.Email,
-                    SecurityStamp = Guid.NewGuid().ToString(),
-                    UserName = model.Username
-                };
+
+                ApplicationUser user = this.mapper.Map<ApplicationUser>(model);
+
+                //ApplicationUser user = new ApplicationUser()
+                //{
+                //    Email = model.Email,
+                //    SecurityStamp = Guid.NewGuid().ToString(),
+                //    UserName = model.Username
+                //};
+                user.SecurityStamp = Guid.NewGuid().ToString();
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (!result.Succeeded)
                     return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
